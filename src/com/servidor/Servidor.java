@@ -31,25 +31,26 @@ public  class Servidor extends Thread {
 
     @Override
     public void run() {
-
-
         try {
 
+            for (int i = 0; i < usuarios.size(); i++) {
+                usuarios.get(i).enviarMensaje(getName()+" acaba de conectarse a este chat");
+            }
             String mensaje = "";
-            while (!mensaje.equalsIgnoreCase("fin")) {
+            while (usuarios.size()!=0) {
                 byte[] mensajeRecibido  =new byte[140];
                 entrada.read(mensajeRecibido);
                 mensaje = new String(mensajeRecibido).trim();
-                for (int i = 0; i < usuarios.size(); i++) {
-                    usuarios.get(i).enviarMensaje(mensaje);
+                if (mensaje.equals("/bye")){
+                      break;
+                }else {
+                    for (int i = 0; i < usuarios.size(); i++) {
+                        usuarios.get(i).enviarMensaje(mensaje);
+                    }
                 }
             }
+            System.out.println("que?");
 
-            System.out.println("Cerrando el nuevo socket");
-
-            socket.close();
-
-            System.out.println("Terminado");
 
         } catch (IOException e) {
             e.printStackTrace();
