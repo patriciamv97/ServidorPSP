@@ -30,8 +30,17 @@ public class Main {
                 salida.write("Conectado á sala de chat".getBytes());
                 byte[] nick = new byte[140];
                 entrada.read(nick);
-                Servidor servidor = new Servidor(new String(nick).trim(),newSocket);
-                servidor.start();
+                int usuarios=Servidor.usuarios.size()+1;
+                if (usuarios>2){
+                    System.out.println("No pueden conectarse mas usuarios");
+                   salida.write("/bye".getBytes());
+                }else {
+                    System.out.println("Novo cliente conectado : "+new String(nick).trim()
+                            +"\nActualmente hai "+usuarios+" usuarios conectados"
+                    );
+                    Servidor servidor = new Servidor(new String(nick).trim(), newSocket);
+                    servidor.start();
+                }
             }
 
         } catch (IOException e) {
