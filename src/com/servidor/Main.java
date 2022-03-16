@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
+
             serverSocket = new ServerSocket();
             InetSocketAddress addr = new InetSocketAddress("localhost", 2001);
             serverSocket.bind(addr);

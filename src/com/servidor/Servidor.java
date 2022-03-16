@@ -26,6 +26,7 @@ public  class Servidor extends Thread {
 
     void enviarMensaje(String mensaje) throws IOException {
         salida.write(mensaje.getBytes());
+
     }
 
     @Override
