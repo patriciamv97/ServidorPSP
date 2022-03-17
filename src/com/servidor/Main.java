@@ -1,5 +1,6 @@
 package com.servidor;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,7 +21,8 @@ public class Main {
         try {
 
             serverSocket = new ServerSocket();
-            InetSocketAddress addr = new InetSocketAddress("localhost", 2001);
+            int puerto= Integer.parseInt(JOptionPane.showInputDialog("Introduce el puerto:"));
+            InetSocketAddress addr = new InetSocketAddress("localhost", puerto);
             serverSocket.bind(addr);
             System.out.println("Ningún cliente conectado");
             while (true) {

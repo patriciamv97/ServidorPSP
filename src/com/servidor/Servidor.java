@@ -19,7 +19,6 @@ public class Servidor extends Thread {
         this.socket = socket;
         entrada = socket.getInputStream();
         salida = socket.getOutputStream();
-        usuarios.add(this);
 
     }
 
@@ -37,6 +36,8 @@ public class Servidor extends Thread {
             for (int i = 0; i < usuarios.size(); i++) {
                 usuarios.get(i).enviarMensaje(getName() + " acaba de conectarse a este chat");
             }
+            usuarios.add(this);
+
             String mensaje = "";
             while (usuarios.size() != 0) {
                 byte[] mensajeRecibido = new byte[140];
@@ -65,7 +66,28 @@ public class Servidor extends Thread {
 
 
         } catch (IOException e) {
-            System.out.println("socket cerrado");
+            try {
+                this.socket.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            usuarios.remove(this);
+            if (usuarios.size()==0){
+                System.out.println("Ningún cliente conectado");
+            }else {
+
+                for (int i = 0; i < usuarios.size(); i++) {
+                    String desconexion = this.getName() + " deixou este chat";
+                    try {
+                        usuarios.get(i).enviarMensaje(desconexion);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                }
+            }
+            System.out.println("socket cerrado\n");
+
         }
     }
 }
